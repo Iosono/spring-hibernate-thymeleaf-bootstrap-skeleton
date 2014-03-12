@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Bootstrap -->
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/custom-bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/sticky-footer-navbar.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div id="wrap">
+        <div th:replace="templates :: navbar"></div>
+
+        <div class="container">
+            <h1>Something is wrong!!</h1>
+            <div class="alert-danger row" th:if="${exception}" th:fragment="errorTemplate"  style="height: 200px; overflow-x: scroll;">
+                <p th:text="${exception.message}"></p>
+                <div th:each="stack,iterStat : ${exception.getStackTrace()}" th:text="${stack}" th:class="${iterStat.index} != 0 ? 'small col-md-offset-1'">
+                </div>
+            </div>
+            <br/>
+            <div class="alert-danger row" th:if="${exception.cause}" style="height: 200px; overflow-x: scroll;">
+                <p th:text="${exception.cause.message}"></p>
+                <div th:each="stack,iterStat : ${exception.cause.getStackTrace()}" th:text="${stack}" th:class="${iterStat.index} != 0 ? 'small col-md-offset-1'">
+                </div>
+            </div>
+            <br/>
+            <div class="alert-danger row" th:if="${exception.cause.cause}" style="height: 200px; overflow-x: scroll;">
+                <p th:text="${exception.cause.cause.message}"></p>
+                <div th:each="stack,iterStat : ${exception.cause.cause.getStackTrace()}" th:text="${stack}" th:class="${iterStat.index} != 0 ? 'small col-md-offset-1'">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="templates :: footer"></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

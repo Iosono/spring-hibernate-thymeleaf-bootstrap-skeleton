@@ -1,0 +1,69 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add-user-table" author="gnandigam">
+        <createTable tableName="users">
+            <column name="id" type="uuid" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar" >
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_expired" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_locked" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credentials_non_expired" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-roles" author="gnandigam">
+        <createTable tableName="roles">
+            <column name="role" type="varchar(10)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false"
+                        foreignKeyName="fk_user_role-users" references="users(id)"/>
+            </column>
+            <column name="role" type="varchar(10)">
+                <constraints nullable="false"
+                        foreignKeyName="fk_user_role-roles" references="roles(role)"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="user_role" columnNames="user_id, role"/>
+        <insert tableName="roles">
+            <column name="role" value="ROLE_USER"></column>
+        </insert>
+        <insert tableName="roles">
+            <column name="role" value="ROLE_ADMIN"></column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Bootstrap -->
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/custom-bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/sticky-footer-navbar.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div id="wrap">
+        <div th:replace="templates :: navbar"></div>
+
+        <div class="container">
+            <div class="btn-toolbar">
+                <button class="btn btn-primary" >New User</button>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user,iterStat : ${users}">
+
+                        <td th:text="${iterStat.count}">0</td>
+                        <td th:text="${user.firstName}">FirstName</td>
+                        <td th:text="${user.lastName}">LastName</td>
+                        <td th:text="${user.email}">Email</td>
+                        <td colspan="2">
+                            <a th:href="@{/admin/user/} + ${user.id} + '/edit'">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                            </a>
+                            <a href="#myModal" role="button" data-toggle="modal">
+                                <i class="glyphicon glyphicon-remove"></i>
+                                &nbsp;
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Delete Confirmation</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="error-text">Are you sure you want to delete the user?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="templates :: footer"></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>
